@@ -142,6 +142,7 @@ int main(int argc, char** argv)
 
         if (keyPressed) {
             if (keyPressed == GLFW_KEY_E) {
+                std::cout << "saved " << modelPath + "/screen.png" << std::endl;
                 saveImage(modelPath + "/screen.png", pRenderer.getFrontBuffer().data(), VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 3);
             } else if (keyPressed == GLFW_KEY_UP) {
                 scale *= 2;
