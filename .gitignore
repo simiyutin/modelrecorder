@@ -1,0 +1,14 @@
+**/**/.idea
+**/**/*.iml
+**/**/venv
+**/**/cmake-build-debug
+**/**/cmake-build-release
+**/**/cmake-build-relwithdebinfo
+**/**/CMakeFiles
+**/**/OpenCV
+/data
+/build
+/lib/opencv
+/lib/mkl
+/lib/superlu
+experiments
