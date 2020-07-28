@@ -13,6 +13,8 @@ static double prevX;
 static double prevY;
 static void mouse_callback(GLFWwindow* window, int button, int action, int mods)
 {
+    (void) mods;
+
     if (button == GLFW_MOUSE_BUTTON_LEFT) {
         if(GLFW_PRESS == action) {
             glfwGetCursorPos(window, &prevX, &prevY);
@@ -29,6 +31,10 @@ static void mouse_callback(GLFWwindow* window, int button, int action, int mods)
 static int keyPressed = 0;
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+    (void) window;
+    (void) scancode;
+    (void) mods;
+
     if (action == GLFW_PRESS) {
         keyPressed = key;
     }
@@ -124,13 +130,13 @@ int main(int argc, char** argv)
             double x;
             double y;
             glfwGetCursorPos(window, &x, &y);
-            x -= VIEWPORT_WIDTH / 2;
-            y -= VIEWPORT_HEIGHT / 2;
+            x -= (double) VIEWPORT_WIDTH / 2;
+            y -= (double) VIEWPORT_HEIGHT / 2;
             if (lbutton_fresh) {
-                trackball.setPrev(x, -y);
+                trackball.setPrev((float) x, (float) -y);
                 lbutton_fresh = false;
             } else {
-                trackball.update(x, -y);
+                trackball.update((float) x, (float) -y);
             }
         }
 
