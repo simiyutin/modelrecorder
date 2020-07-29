@@ -4,7 +4,7 @@
 PositioningRenderer::PositioningRenderer(const std::shared_ptr<Scene> & scene, RenderOptions renderOptions) :
         scene(scene),
         renderOptions(renderOptions),
-        mainProgram(getProgram("mask_maker/shaders/view_main_vertex.glsl", "mask_maker/shaders/view_main_fragment.glsl")),
+        mainProgram(getProgram("shaders/view_main_vertex.glsl", "shaders/view_main_fragment.glsl")),
         imageData(renderOptions.viewPortOptions.width * renderOptions.viewPortOptions.height * 3)
 {
     initObjects(mainProgram, scene->model);
