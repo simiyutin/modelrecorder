@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.1)
 
 project(3dtemplate)
 
+add_subdirectory(lib/glad)
+add_subdirectory(lib/glfw)
+
 
 set(HEADERS
         src/glCommon.h
@@ -34,6 +37,7 @@ set(LIBRARIES
         utils
         tinyobjloader
         glad
+        glfw3
         )
 
 add_library(${PROJECT_NAME} ${HEADERS} ${SOURCES})
@@ -41,5 +45,5 @@ add_library(${PROJECT_NAME} ${HEADERS} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC src)
 
 target_link_libraries(${PROJECT_NAME} ${CMAKE_DL_LIBS})
-target_link_libraries(${PROJECT_NAME} GL GLU glfw3 X11 Xxf86vm Xrandr pthread Xi dl Xinerama Xcursor assimp)
+target_link_libraries(${PROJECT_NAME} GL GLU X11 Xxf86vm Xrandr pthread Xi dl Xinerama Xcursor assimp)
 target_link_libraries(${PROJECT_NAME} ${LIBRARIES})

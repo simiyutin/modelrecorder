@@ -9,7 +9,6 @@ add_subdirectory(lib/stb)
 add_subdirectory(lib/utils)
 add_subdirectory(lib/tinyobjloader)
 add_subdirectory(lib/3dtemplate)
-add_subdirectory(lib/3dtemplate/lib/glad)
 
 set(HEADERS
         renderers/PositioningRenderer.h
@@ -28,10 +27,11 @@ set(LIBRARIES
         tinyobjloader
         3dtemplate
         glad
+        glfw3
         )
 
 add_executable(${PROJECT_NAME} ${HEADERS} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} ${CMAKE_DL_LIBS})
-target_link_libraries(${PROJECT_NAME} GL GLU glfw3 X11 Xxf86vm Xrandr pthread Xi dl Xinerama Xcursor assimp)
+target_link_libraries(${PROJECT_NAME} GL GLU X11 Xxf86vm Xrandr pthread Xi dl Xinerama Xcursor assimp)
 target_link_libraries(${PROJECT_NAME} ${LIBRARIES})
