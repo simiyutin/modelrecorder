@@ -34,5 +34,4 @@ set(LIBRARIES
 add_executable(${PROJECT_NAME} ${HEADERS} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} ${CMAKE_DL_LIBS})
-target_link_libraries(${PROJECT_NAME} GL GLU X11 Xxf86vm Xrandr pthread Xi dl Xinerama Xcursor assimp)
 target_link_libraries(${PROJECT_NAME} ${LIBRARIES})

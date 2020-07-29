@@ -47,5 +47,4 @@ add_library(${PROJECT_NAME} ${HEADERS} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC src)
 
 target_link_libraries(${PROJECT_NAME} ${CMAKE_DL_LIBS})
-target_link_libraries(${PROJECT_NAME} GL GLU X11 Xxf86vm Xrandr pthread Xi dl Xinerama Xcursor assimp)
 target_link_libraries(${PROJECT_NAME} ${LIBRARIES})
