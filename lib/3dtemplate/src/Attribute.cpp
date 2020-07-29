@@ -1,4 +1,4 @@
-#include "../include/Attribute.h"
+#include "Attribute.h"
 
 Attribute::Attribute(const std::vector<float> & data, int itemSize, const char * attribName) :
         data(data),

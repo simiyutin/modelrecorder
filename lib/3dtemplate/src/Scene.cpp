@@ -1,4 +1,4 @@
-#include "../include/Scene.h"
+#include "Scene.h"
 
 using namespace glm;
 

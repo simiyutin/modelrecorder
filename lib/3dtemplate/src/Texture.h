@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "glCommon.h"
-#include "../../stb/stb_image_wrapper.h"
+#include <stb_image_wrapper.h>
 
 struct Texture {
     Texture(GLuint index, const Image &image);

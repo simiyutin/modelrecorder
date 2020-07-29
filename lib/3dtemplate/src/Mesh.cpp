@@ -3,7 +3,7 @@
 #include <set>
 #include <unordered_map>
 #include <iostream>
-#include "../include/Mesh.h"
+#include "Mesh.h"
 
 Mesh::Mesh(const std::vector<Mesh::Face> &faces,
            const std::vector<Mesh::Vertex> &vertices,

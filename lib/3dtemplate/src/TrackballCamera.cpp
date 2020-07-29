@@ -1,7 +1,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 #include <glm/gtc/quaternion.hpp>
-#include "../include/trackball.h"
+#include "TrackballCamera.h"
 
 static const float inf = std::numeric_limits<float>::infinity();
 

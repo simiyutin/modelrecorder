@@ -7,7 +7,7 @@
 #include "Attribute.h"
 #include "Texture.h"
 #include "Mesh.h"
-#include "trackball.h"
+#include "TrackballCamera.h"
 
 struct Model {
     Model(const std::shared_ptr<Attribute> &vertices, const std::shared_ptr<Attribute> &normals,

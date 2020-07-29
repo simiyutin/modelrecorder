@@ -4,30 +4,30 @@ project(3dtemplate)
 
 
 set(HEADERS
-        include/glCommon.h
-        include/glUtils.h
-        include/Attribute.h
-        include/Model.h
-        include/Scene.h
-        include/Texture.h
-        include/Renderer.h
-        include/VPHandler.h
-        include/RenderOptions.h
-        include/Mesh.h
-        include/trackball.h
-        lib/glad/include/glad/glad.h
+        src/glCommon.h
+        src/glUtils.h
+        src/Attribute.h
+        src/Model.h
+        src/Scene.h
+        src/Texture.h
+        src/Renderer.h
+        src/VPHandler.h
+        src/RenderOptions.h
+        src/Mesh.h
+        src/TrackballCamera.h
+        lib/glad/include/glad/glad.h #TODO glad to separate lib
         )
 
 
 set(SOURCES
-        model/Attribute.cpp
-        model/Model.cpp
-        model/Scene.cpp
-        model/Texture.cpp
-        renderers/VPHandler.cpp
-        mesh/Mesh.cpp
-        trackball/trackball.cpp
-        lib/glad/src/glad.c
+        src/Attribute.cpp
+        src/Model.cpp
+        src/Scene.cpp
+        src/Texture.cpp
+        src/VPHandler.cpp
+        src/Mesh.cpp
+        src/TrackballCamera.cpp
+        lib/glad/src/glad.c #TODO glad to separate lib
         )
 
 
@@ -39,7 +39,7 @@ set(LIBRARIES
 
 add_library(${PROJECT_NAME} ${HEADERS} ${SOURCES})
 
-target_include_directories(${PROJECT_NAME} PUBLIC ./include)
+target_include_directories(${PROJECT_NAME} PUBLIC src)
 
 target_link_libraries(${PROJECT_NAME} ${CMAKE_DL_LIBS})
 target_link_libraries(${PROJECT_NAME} GL GLU glfw3 X11 Xxf86vm Xrandr pthread Xi dl Xinerama Xcursor assimp)

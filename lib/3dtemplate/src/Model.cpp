@@ -4,8 +4,8 @@
 #include <set>
 #include <tiny_obj_loader.h>
 #include <contains.h>
-#include "../include/Model.h"
-#include "../include/glUtils.h"
+#include "Model.h"
+#include "glUtils.h"
 
 
 Model::Model(const std::shared_ptr<Attribute> &vertices, const std::shared_ptr<Attribute> &normals,
