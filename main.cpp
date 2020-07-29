@@ -1,5 +1,3 @@
-// todo: capture screeenshot every n seconds
-
 #include <iostream>
 #include <unistd.h>
 #include <thread>
