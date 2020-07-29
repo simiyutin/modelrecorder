@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <thread>
 #include <chrono>
+#include <iomanip>
 
 #include "renderers/PositioningRenderer.h"
 
@@ -54,6 +55,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     if (action == GLFW_RELEASE) {
         keyPressed = 0;
     }
+}
+
+inline std::string padint(int i) {
+    std::stringstream ss;
+    ss << std::setw(5) << std::setfill('0') << i;
+    return ss.str();
 }
 
 
@@ -131,6 +138,9 @@ int main(int argc, char** argv)
     double prevTime = glfwGetTime();
     int framesRendered = 0;
     const double targetFps = 60;
+
+    int screenId = 0;
+
     //render loop
     while(!glfwWindowShouldClose(window))
     {
@@ -169,9 +179,10 @@ int main(int argc, char** argv)
 
         if (keyPressed) {
             auto tr = float(0.0005 * (renderStart - prevTime) / framesRendered * 1000);
-            if (keyPressed == GLFW_KEY_R) {
-                std::cout << "saved " << modelPath + "/screen.png" << std::endl;
-                saveImage(modelPath + "/screen.png", pRenderer.getFrontBuffer().data(), VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 3);
+            if (keyPressed == GLFW_KEY_SPACE) {
+                std::string path = modelPath + "/screen" + padint(screenId++) + ".png";
+                saveImage(path, pRenderer.getFrontBuffer().data(), VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 3);
+                std::cout << "saved " << path << std::endl;
                 keyPressed = 0;
             }
             if (keyPressed == GLFW_KEY_W) {
