@@ -9,6 +9,7 @@ add_subdirectory(lib/stb)
 add_subdirectory(lib/utils)
 add_subdirectory(lib/tinyobjloader)
 add_subdirectory(lib/3dtemplate)
+add_subdirectory(lib/3dtemplate/lib/glad)
 
 set(HEADERS
         renderers/PositioningRenderer.h
@@ -26,6 +27,7 @@ set(LIBRARIES
         utils
         tinyobjloader
         3dtemplate
+        glad
         )
 
 add_executable(${PROJECT_NAME} ${HEADERS} ${SOURCES})

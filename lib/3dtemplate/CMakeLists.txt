@@ -15,7 +15,6 @@ set(HEADERS
         src/RenderOptions.h
         src/Mesh.h
         src/TrackballCamera.h
-        lib/glad/include/glad/glad.h #TODO glad to separate lib
         )
 
 
@@ -27,7 +26,6 @@ set(SOURCES
         src/VPHandler.cpp
         src/Mesh.cpp
         src/TrackballCamera.cpp
-        lib/glad/src/glad.c #TODO glad to separate lib
         )
 
 
@@ -35,6 +33,7 @@ set(LIBRARIES
         stb
         utils
         tinyobjloader
+        glad
         )
 
 add_library(${PROJECT_NAME} ${HEADERS} ${SOURCES})
