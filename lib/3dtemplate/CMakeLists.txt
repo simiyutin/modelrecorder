@@ -38,7 +38,7 @@ set(LIBRARIES
         utils
         tinyobjloader
         glad
-        glfw3
+        glfw
         glm
         )
 

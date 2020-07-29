@@ -27,7 +27,7 @@ set(LIBRARIES
         tinyobjloader
         3dtemplate
         glad
-        glfw3
+        glfw
         glm
         )
 
