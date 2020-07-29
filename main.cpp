@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <unistd.h>
+#include <thread>
+#include <chrono>
 
 #include "renderers/PositioningRenderer.h"
 
@@ -128,17 +130,19 @@ int main(int argc, char** argv)
 
     double prevTime = glfwGetTime();
     int framesRendered = 0;
+    const double targetFps = 60;
     //render loop
     while(!glfwWindowShouldClose(window))
     {
+        double renderStart = glfwGetTime();
+
         //measure perf
-        double currTime = glfwGetTime();
-        ++framesRendered;
-        if (currTime - prevTime >= 1.0) {
-            std::cout << "ms per frame: " << (currTime - prevTime) / framesRendered * 1000 << std::endl;
-            prevTime = currTime;
+        if (renderStart - prevTime >= 1.0 && framesRendered) {
+            std::cout << "ms per frame: " << (renderStart - prevTime) / framesRendered * 1000 << std::endl;
+            prevTime = renderStart;
             framesRendered = 0;
         }
+        ++framesRendered;
 
         //handle user input
         if(lbutton_down) {
@@ -164,7 +168,7 @@ int main(int argc, char** argv)
         }
 
         if (keyPressed) {
-            float tr = 0.00025f;
+            auto tr = float(0.0005 * (renderStart - prevTime) / framesRendered * 1000);
             if (keyPressed == GLFW_KEY_R) {
                 std::cout << "saved " << modelPath + "/screen.png" << std::endl;
                 saveImage(modelPath + "/screen.png", pRenderer.getFrontBuffer().data(), VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 3);
@@ -209,6 +213,12 @@ int main(int argc, char** argv)
 
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        double renderEnd = glfwGetTime();
+        if (renderEnd - renderStart < 1.0 / targetFps) {
+            auto timeToSleepMilliSeconds = int(1000.0 * (1.0 / targetFps - renderEnd + renderStart));
+            std::this_thread::sleep_for(std::chrono::milliseconds(timeToSleepMilliSeconds));
+        }
     }
 
     //free resources
