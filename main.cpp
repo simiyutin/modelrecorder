@@ -166,7 +166,7 @@ int main(int argc, char** argv)
         if (keyPressed) {
             float tr = 0.00025f;
             if (keyPressed == GLFW_KEY_R) {
-                std::cout << "saved " << modelPath + "/screen.png" << std::endl;d
+                std::cout << "saved " << modelPath + "/screen.png" << std::endl;
                 saveImage(modelPath + "/screen.png", pRenderer.getFrontBuffer().data(), VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 3);
                 keyPressed = 0;
             }
