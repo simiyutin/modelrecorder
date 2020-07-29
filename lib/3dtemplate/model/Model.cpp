@@ -10,7 +10,7 @@
 
 Model::Model(const std::shared_ptr<Attribute> &vertices, const std::shared_ptr<Attribute> &normals,
              const std::shared_ptr<Attribute> &texcoords, const Texture &texture, const Mesh &mesh) : vertices(
-        vertices), normals(normals), texcoords(texcoords), texture(texture), mesh(mesh) {}
+        vertices), normals(normals), texcoords(texcoords), texture(texture), mesh(mesh), matrix(1) {}
 
 Model Model::fromMesh(const Mesh &mesh) {
     std::shared_ptr<Attribute> vertexAttribute = std::make_shared<Attribute>(mesh.expandVertices(), 3, VERTEX_ATTRIBUTE_NAME);

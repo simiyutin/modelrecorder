@@ -1,27 +1,48 @@
 #pragma once
 
-// заменит поле Orientation у модели
 
 #include <glm/glm.hpp>
 
-// состояние: предыдущее положение мыши и матрица преобразования
-// при обновлении положения мыши считаем дельту преобразования и применяем к текущей матрице.
-// как обрабатывать положения мыши дальше чем полусфера - примагничивать к ближайшей точке сферы.
-struct Trackball {
-    Trackball(float sensivity);
+struct Camera {
+    explicit Camera(float sensivity);
 
     void update(float x, float y);
-    void setPrev(float x, float y);
+    void stopMotion();
     void translate(float dx, float dy, float dz);
-    glm::mat4 getModelMatrix();
-    glm::vec3 applyModelMatrix(const glm::vec3 & v);
+    glm::mat4 getTransformMatrix();
     void reset();
 
 private:
+
     float prevX;
     float prevY;
-    glm::mat4 matrix;
+
+    glm::vec3 cameraCenter;
+    glm::vec3 cameraUp;
+    float phi;
+    float theta;
+
     float sensivity;
 };
+
+
+struct Trackball {
+    explicit Trackball(float sensivity);
+
+    void update(float x, float y, const glm::mat4 &view, const glm::mat4 &projection);
+    void stopMotion();
+    glm::mat4 getTransformMatrix();
+    void reset();
+
+private:
+
+    float prevX;
+    float prevY;
+
+    glm::quat rotation;
+
+    float sensivity;
+};
+
 
 

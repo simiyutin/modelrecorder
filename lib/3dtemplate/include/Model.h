@@ -24,6 +24,7 @@ struct Model {
     std::unordered_map<programID, vaoID> vaos;
     Texture texture;
     Mesh mesh;
+    glm::mat4 matrix;
 };
 
 Model loadModelByFileName(const std::string &basePath, const std::string &objFile);

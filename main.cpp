@@ -1,6 +1,4 @@
-// todo: rotate, navigate
 // todo: capture screeenshot every n seconds
-// todo: check valgrind
 
 #include <iostream>
 #include <unistd.h>
@@ -8,24 +6,37 @@
 #include "renderers/PositioningRenderer.h"
 
 static bool lbutton_down = false;
-static bool lbutton_fresh = false;
-static double prevX;
-static double prevY;
+static bool rbutton_down = false;
 static void mouse_callback(GLFWwindow* window, int button, int action, int mods)
 {
     (void) mods;
 
     if (button == GLFW_MOUSE_BUTTON_LEFT) {
         if(GLFW_PRESS == action) {
-            glfwGetCursorPos(window, &prevX, &prevY);
             lbutton_down = true;
-            lbutton_fresh = true;
         }
         else if(GLFW_RELEASE == action) {
             lbutton_down = false;
-            lbutton_fresh = false;
         }
     }
+
+    if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+        if(GLFW_PRESS == action) {
+            rbutton_down = true;
+        }
+        else if(GLFW_RELEASE == action) {
+            rbutton_down = false;
+        }
+    }
+}
+
+static double scrollX = 0;
+static double scrollY = 0;
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    (void) window;
+    scrollX = xoffset;
+    scrollY = yoffset;
 }
 
 static int keyPressed = 0;
@@ -37,6 +48,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
     if (action == GLFW_PRESS) {
         keyPressed = key;
+    }
+    if (action == GLFW_RELEASE) {
+        keyPressed = 0;
     }
 }
 
@@ -86,18 +100,18 @@ int main(int argc, char** argv)
     }
 
     glfwSetMouseButtonCallback(window, mouse_callback);
+    glfwSetScrollCallback(window, scroll_callback);
     glfwSetKeyCallback(window, key_callback);
 
     //enable depth test
     glEnable(GL_DEPTH_TEST);
 
     Model model = loadModelByFileName(modelPath, modelFile);
-    Trackball trackball(0.005);
-    Scene scene{{0, 0, 1}, model, trackball};
-    std::shared_ptr<Scene> scenePtr = std::make_shared<Scene>(scene);
+    Camera camera(0.3);
+    Trackball trackball(0.3);
+    std::shared_ptr<Scene> scenePtr = std::make_shared<Scene>(glm::vec3(0, 0, 1), model);
 
     //init view renderer
-    float scale = 3;
     RenderOptions pRenderOptions = {
             {
                     0,
@@ -110,6 +124,7 @@ int main(int argc, char** argv)
     };
     PositioningRenderer pRenderer(scenePtr, pRenderOptions);
 
+    const glm::mat4 projection_matrix = glm::perspective(glm::radians(45.0f), aspect_ratio, 0.001f, 100.f);
 
     double prevTime = glfwGetTime();
     int framesRendered = 0;
@@ -132,30 +147,63 @@ int main(int argc, char** argv)
             glfwGetCursorPos(window, &x, &y);
             x -= (double) VIEWPORT_WIDTH / 2;
             y -= (double) VIEWPORT_HEIGHT / 2;
-            if (lbutton_fresh) {
-                trackball.setPrev((float) x, (float) -y);
-                lbutton_fresh = false;
-            } else {
-                trackball.update((float) x, (float) -y);
-            }
+            camera.update((float) x, (float) y);
+        } else {
+            camera.stopMotion();
+        }
+
+        if(rbutton_down) {
+            double x;
+            double y;
+            glfwGetCursorPos(window, &x, &y);
+            x -= (double) VIEWPORT_WIDTH / 2;
+            y -= (double) VIEWPORT_HEIGHT / 2;
+            trackball.update((float) x, (float) y, camera.getTransformMatrix(), projection_matrix);
+        } else {
+            trackball.stopMotion();
         }
 
         if (keyPressed) {
-            if (keyPressed == GLFW_KEY_E) {
-                std::cout << "saved " << modelPath + "/screen.png" << std::endl;
+            float tr = 0.00025f;
+            if (keyPressed == GLFW_KEY_R) {
+                std::cout << "saved " << modelPath + "/screen.png" << std::endl;d
                 saveImage(modelPath + "/screen.png", pRenderer.getFrontBuffer().data(), VIEWPORT_WIDTH, VIEWPORT_HEIGHT, 3);
-            } else if (keyPressed == GLFW_KEY_UP) {
-                scale *= 2;
-            } else if (keyPressed == GLFW_KEY_DOWN) {
-                scale /= 2;
+                keyPressed = 0;
             }
-            keyPressed = 0;
+            if (keyPressed == GLFW_KEY_W) {
+                camera.translate(0, 0, -tr);
+            }
+            if (keyPressed == GLFW_KEY_S) {
+                camera.translate(0, 0, tr);
+            }
+            if (keyPressed == GLFW_KEY_A) {
+                camera.translate(-tr, 0, 0);
+            }
+            if (keyPressed == GLFW_KEY_D) {
+                camera.translate(tr, 0, 0);
+            }
+            if (keyPressed == GLFW_KEY_E) {
+                camera.translate(0, tr, 0);
+            }
+            if (keyPressed == GLFW_KEY_Q) {
+                camera.translate(0, -tr, 0);
+            }
+            if (keyPressed == GLFW_KEY_0) {
+                camera.reset();
+                trackball.reset();
+            }
+        }
+
+        if (scrollY != 0) {
+            float t = (float) scrollY * 0.05f;
+            camera.translate(0, 0, t);
+            scrollY = 0;
         }
 
         //render
         glClear(GL_COLOR_BUFFER_BIT);
-        glm::mat4 view_matrix = glm::mat4(1.0);
-        glm::mat4 projection_matrix = glm::ortho(-1 / scale * aspect_ratio, 1 / scale * aspect_ratio, -1 / scale, 1 / scale, -1 / scale, 1 / scale);
+        scenePtr->model.matrix = trackball.getTransformMatrix();
+        glm::mat4 view_matrix = camera.getTransformMatrix();
         VPHandler pVPHandler(view_matrix, projection_matrix);
         pRenderer.render(pVPHandler);
 

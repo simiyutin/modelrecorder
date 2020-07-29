@@ -2,8 +2,7 @@
 
 using namespace glm;
 
-Scene::Scene(const glm::vec3 &lightDir, const Model &model, Trackball & trackball) :
+Scene::Scene(const glm::vec3 &lightDir, const Model &model) :
         lightDir(lightDir),
-        model(model),
-        trackball(trackball)
+        model(model)
 {}

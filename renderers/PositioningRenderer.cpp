@@ -30,7 +30,7 @@ void PositioningRenderer::render(const VPHandler & handler)
     Model & m = scene->model;
     glBindVertexArray(m.vaos[mainProgram]);
 
-    glUniformMatrix4fv(mainLocations["uMMatrix"],      1, GL_FALSE, glm::value_ptr(scene->trackball.getModelMatrix()));
+    glUniformMatrix4fv(mainLocations["uMMatrix"],      1, GL_FALSE, glm::value_ptr(scene->model.matrix));
     glUniformMatrix4fv(mainLocations["uVMatrix"],      1, GL_FALSE, glm::value_ptr(handler.getVMatrix()));
     glUniformMatrix4fv(mainLocations["uPMatrix"],      1, GL_FALSE, glm::value_ptr(handler.getPMatrix()));
 
