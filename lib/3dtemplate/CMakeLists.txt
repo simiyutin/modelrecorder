@@ -4,6 +4,7 @@ project(3dtemplate)
 
 add_subdirectory(lib/glad)
 add_subdirectory(lib/glfw)
+add_subdirectory(lib/glm)
 
 
 set(HEADERS
@@ -38,6 +39,7 @@ set(LIBRARIES
         tinyobjloader
         glad
         glfw3
+        glm
         )
 
 add_library(${PROJECT_NAME} ${HEADERS} ${SOURCES})

@@ -28,6 +28,7 @@ set(LIBRARIES
         3dtemplate
         glad
         glfw3
+        glm
         )
 
 add_executable(${PROJECT_NAME} ${HEADERS} ${SOURCES})

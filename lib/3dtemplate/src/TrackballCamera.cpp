@@ -78,7 +78,7 @@ void Trackball::update(float x, float y, const glm::mat4 &view, const glm::mat4 
 
         glm::vec3 axis = glm::normalize(glm::cross(glm::vec3(prev), glm::vec3(cur)));
 
-        auto angle = glm::distance<float, glm::precision::highp>(glm::vec2(x, y), glm::vec2(prevX, prevY));
+        float angle = glm::distance(glm::vec2(x, y), glm::vec2(prevX, prevY));
 
         glm::quat delta = glm::angleAxis(glm::radians(angle), axis);
         rotation = glm::normalize(delta * rotation);
